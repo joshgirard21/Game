@@ -1,4 +1,4 @@
-color = '66, 0, 244';
+color = '66, 0, 150';
 var config = {
   type:Phaser.AUTO,
   width:800,
