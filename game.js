@@ -1,8 +1,8 @@
 color = '66, 20, 150';
 var config = {
   type:Phaser.AUTO,
-  width:800,
-  height:600,
+  width:100%,
+  height:100%,
   backgroundColor: 'rgb('+color+')',
   scene: {
     preload: preload,
