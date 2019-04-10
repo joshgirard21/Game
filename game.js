@@ -15,9 +15,12 @@ var solar = new Phaser.Game(config);
 
 function preload() {
 
-    this.load.path = 'assets/'
-    this.load.image('StartButton','StartButton.png')
-    this.load.image('StartButtonPressed','StartButtonPressed.png')
+    this.load.path = 'assets/';
+    this.load.image('StartButton','StartButton.png');
+    this.load.image('StartButtonPressed','StartButtonPressed.png');
+    this.load.image('Stage','Stage.png');
+    this.load.image('FlatMirror','FlatMirror.png');
+
     Xtext = this.add.text(100,100,'X coord is:');
     Ytext = this.add.text(100,150,'Y coord is:');
 }
