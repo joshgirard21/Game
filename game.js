@@ -1,4 +1,4 @@
-color = '66, 20, 150';
+color = '66, 100, 200';
 var config = {
   type:Phaser.AUTO,
   width:800,
@@ -24,7 +24,7 @@ function preload() {
 
 function create(){
 
-  var StartButton = this.add.sprite(400,300,'StartButton').setScale(2).setInteractive();
+  var StartButton = this.add.sprite(400,300,'StartButton').setScale(1.5).setInteractive();
 
   StartButton.on('pointerover', function(){
     StartButton.setTexture('StartButtonPressed');
