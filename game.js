@@ -1,5 +1,4 @@
-//alert("Welcome!");
-var go = 0;
+var part = 0;
 var color = '66, 100, 200';
 var config = {
   type:Phaser.AUTO,
@@ -30,16 +29,26 @@ function preload() {
     this.load.image('FlatMirror','FlatMirror.png');
     this.load.image('Stage','Stage.png');
     this.load.image('FlatMirror','FlatMirror.png');
+    this.load.image('Sun1','Sun1.png');
+    this.load.image('Sun2','Sun2.png');
 
-    Xtext = this.add.text(100,100,'X coord is:');
-    Ytext = this.add.text(100,150,'Y coord is:');
 }
 
 function create(){
 
   StartButton = this.add.sprite(400,300,'StartButton').setScale(1.5).setInteractive();
-
-  StartButton.inputEnabled = true;
+  Stage = this.add.sprite(400,300,'Stage').setVisible(false);
+  FlatMirror = this.add.sprite(400,300,'FlatMirror').setVisible(false);
+  this.anims.create({
+    key: 'sun',
+    frames: [
+      {key: 'Sun1'},
+      {key: 'Sun2'},
+    ],
+    frameRate: 4,
+    repeat: -1
+  });
+  this.add.sprite(650,150,'sun').setScale(4).play('sun');
   StartButton.on('pointerover', function(){
     StartButton.setTexture('StartButtonPressed');
   });
@@ -47,32 +56,27 @@ function create(){
     StartButton.setTexture('StartButton');
   });
   StartButton.on('pointerdown',function(){
-    go = 1;
+    part = 1;
   });
-  this.input.on('pointermove',function(cursor){
-    x = cursor.x;
-    y = cursor.y;
-    Xtext.text = 'X coord is:'+x;
-    Ytext.text = 'Y coord is:'+y;
+  this.input.on('pointerdown',function(cursor){
+    if (part == 2){
+      locx.push(cursor.x);
+      locy.push(cursor.y);
+      mirrornum = mirrornum + 1;
+      this.add.sprite(locx[mirrornum],locy[mirrornum],'FlatMirror').setRotation((Math.PI)/2+Math.atan((locy[mirrornum]-300)/(locx[mirrornum]-400)));
+    }
   },this);
-    this.input.on('pointerdown',function(cursor){
-      if (go == 2){
-        locx.push(cursor.x);
-        locy.push(cursor.y);
-        mirrornum = mirrornum + 1;
-        this.add.sprite(locx[mirrornum],locy[mirrornum],'FlatMirror');
-      }
-    },this);
-
 }
 function update(){
-  if (go == 1){
+  x = this.input.x;
+  y = this.input.y;
+  if (part == 1){
     StartButton.destroy();
-    Stage = this.add.sprite(400,300,'Stage');
-    FlatMirror = this.add.sprite(x,y,'FlatMirror');
-    go = 2;
+    Stage.setVisible(true).setInteractive();
+    FlatMirror.setVisible(true);
+    part = 2;
   }
-  if  (go == 2){
+  if  (part == 2){
     FlatMirror.setPosition(x,y);
   }
 
