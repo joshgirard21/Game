@@ -17,6 +17,8 @@ var StartButton;
 var Stage;
 var FlatMirror;
 var Sun;
+var GoButton;
+var Panels = [];
 var x;
 var y;
 var locx = [];
@@ -25,6 +27,7 @@ var mirrornum = -1;
 var canplace = true;
 var sunx = 800;
 var suny = 0;
+var panelcount = -1;
 function preload() {
     this.load.path = 'assets/';
     this.load.image('StartButton','StartButton.png');
@@ -35,6 +38,7 @@ function preload() {
     this.load.image('FlatMirror','FlatMirror.png');
     this.load.image('Sun1','Sun1.png');
     this.load.image('Sun2','Sun2.png');
+    this.load.image('GoButton','GoButton.png')
 
 }
 
@@ -43,6 +47,7 @@ function create(){
   StartButton = this.add.sprite(400,300,'StartButton').setScale(1.5).setInteractive();
   Stage = this.add.sprite(400,300,'Stage').setVisible(false);
   FlatMirror = this.add.sprite(400,300,'FlatMirror').setVisible(false);
+  GoButton = this.add.sprite(700,500,'GoButton').setScale(2).setInteractive().setVisible(false);
   this.anims.create({
     key: 'sun',
     frames: [
@@ -67,9 +72,19 @@ function create(){
       locx.push(cursor.x);
       locy.push(cursor.y);
       mirrornum = mirrornum + 1;
-      this.add.sprite(locx[mirrornum],locy[mirrornum],'FlatMirror').setRotation(3*(Math.PI)/2+Math.atan((locy[mirrornum]-suny)/(locx[mirrornum]-sunx)));
+      panelcount = panelcount +1;
+      Panels[panelcount] = this.add.sprite(locx[mirrornum],locy[mirrornum],'FlatMirror').setRotation(3*(Math.PI)/2+Math.atan((locy[mirrornum]-suny)/(locx[mirrornum]-sunx)));
     }
   },this);
+  GoButton.on('pointerover', function(){
+    GoButton.setTint(0xA9A9A9);
+  });
+  GoButton.on('pointerout', function(){
+    GoButton.clearTint();
+  });
+  GoButton.on('pointerdown', function(){
+    part = 3;
+  });
 }
 function update(){
   x = this.input.x;
@@ -80,6 +95,7 @@ function update(){
     Stage.setVisible(true);
     FlatMirror.setVisible(true);
     Sun.setPosition(sunx,suny);
+    GoButton.setVisible(true);
     part = 2;
   }
   if  (part == 2){
@@ -93,6 +109,16 @@ function update(){
         canplace = false;
         help.text = 'Too Close!'
       }
+    }
+  }
+  if (part == 3){
+    FlatMirror.setVisible(false);
+    help.destroy();
+    sunx--;
+    Sun.setPosition(sunx,suny)
+    for (var i = 0; i< Panels.length; i++){
+      thispanel = Panels[i];
+      thispanel.setRotation(3*(Math.PI)/2+Math.atan((locy[i]-suny)/(locx[i]-sunx)));
     }
   }
 
