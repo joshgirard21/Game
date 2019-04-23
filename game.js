@@ -21,9 +21,11 @@ var GoButton; //red go button
 var Tower;
 var Cloud;
 var Cloud2;
+var TowerObj;
 var Panels = [0]; //list of all the panel objects
 var Line = [];
 var Emitter = [];
+var alpha = 0;
 var sunray;
 var thisline;
 var x; //cursor x
@@ -105,6 +107,7 @@ function create(){
       this.add.sprite(cursor.x,cursor.y,'Tower');
       towerx = cursor.x;
       towery = cursor.y;
+      TowerObj = this.add.sprite(towerx,towery,'Tower').setTintFill(0xFF0000).setAlpha(0);
       part = 2.8;
     }
   },this);
@@ -208,6 +211,8 @@ function update(){
     Tower.setVisible(false);
   }
   if (part == 3){
+    alpha += .0008;
+    TowerObj.setAlpha(alpha);
     for (var i = 0; i <12; i++){
       thisline = Line[i];
       thisline.clear();
@@ -228,8 +233,8 @@ function update(){
     for (var i = 0; i< Panels.length; i++){
       var thispanel = Panels[i];
       var thetaRad = Math.atan((locy[i]-suny)/(locx[i]-sunx));
-      var phiRad = Math.atan((locy[i]-towery)/(locx[i]-towerx))
-      if (locx[i] <= sunx){
+      var phiRad = Math.atan((locy[i]-towery)/(locx[i]-towerx));
+      if (locx[i] < sunx){
         thispanel.setRotation(thetaRad-Math.PI/2);
       }else if(locx[i] >= sunx){
         thispanel.setRotation(thetaRad+Math.PI/2)
@@ -249,8 +254,10 @@ function update(){
   if (part == 5){
     GoButton.destroy();
     for (var i = 0; i <12; i++){
-    thisline = Emitter[i];
-    //thisline.destroy();
+    thisline = Line[i];
+    thisline.destroy();
+    thisRay = Emitter[i];
+    thisRay.setLifespan(0);
     }
     part = 6;
   }
