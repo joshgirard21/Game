@@ -44,6 +44,7 @@ var cloudx = -100;
 var cloudy = 500;
 var cloud2x = 800;
 var cloud2y = 400;
+
 function preload() {
     this.load.path = 'assets/'; // this.load goes right to /assets
     this.load.image('StartButton','StartButton.png');
@@ -60,7 +61,6 @@ function preload() {
     this.load.image('SunRay','sunray.png');
 
 }
-
 function create(){
   Cloud2 = this.add.sprite(cloud2x,cloud2y,'Cloud').setScale(2).setRotation(Math.PI).setAlpha(.6);
   Cloud = this.add.sprite(cloudx,cloudy,'Cloud').setScale(3);
@@ -135,6 +135,7 @@ function create(){
   function between(x1,y1,x2,y2,x3,y3){
 
   }
+
 }
 function update(){
   x = this.input.x;
@@ -260,5 +261,26 @@ function update(){
     thisRay.setLifespan(0);
     }
     part = 6;
+  }
+  if (part == 6){
+    TowerObj.alpha = alpha;
+    alpha-=.005;
+    if(alpha<=.005){
+      part = 7;
+    }
+  }
+  if (part == 7){
+    angle = 180*(Math.atan((600-towery)/(400-towerx)))/Math.PI;
+    if(towerx >400){
+      angle = angle + 180
+    }
+    energy = sunray.createEmitter();
+    energy.setAngle(angle);
+    energy.setPosition(towerx,towery);
+    energy.setSpeed(2500);
+    energy.setScale({start: 1, end: .2});
+    energy.setLifespan(500);
+    energy.setBlendMode('ADD');
+    part = 8;
   }
 }
