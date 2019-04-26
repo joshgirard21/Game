@@ -296,7 +296,6 @@ function update(){
     part = 8;
   }
   if (part ==8){
-    alert(part);
     maxX = Math.max(locx);
     maxY = Math.max(locy);
     minX = Math.min(locx);
