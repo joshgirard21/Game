@@ -44,6 +44,7 @@ var cloudx = -100;
 var cloudy = 500;
 var cloud2x = 800;
 var cloud2y = 400;
+var graphics;
 
 function preload() {
     this.load.path = 'assets/'; // this.load goes right to /assets
@@ -59,6 +60,7 @@ function preload() {
     this.load.image('Tower','CollectorTower.png');
     this.load.image('Cloud','cloud.png');
     this.load.image('SunRay','sunray.png');
+    this.load.image('Electron','electron.png');
 
 }
 function create(){
@@ -73,7 +75,9 @@ function create(){
   for (var i = 0; i <12; i++){
     Line[i] = this.add.graphics();
   }
+  graphics = this.add.graphics();
   sunray = this.add.particles('SunRay');
+  electron = this.add.particles('Electron');
   this.anims.create({
     key: 'sun',
     frames: [
@@ -277,10 +281,30 @@ function update(){
     energy = sunray.createEmitter();
     energy.setAngle(angle);
     energy.setPosition(towerx,towery);
-    energy.setSpeed(2500);
+    energy.setSpeed(250);
+    energy.setFrequency(500);
     energy.setScale({start: 1, end: .2});
-    energy.setLifespan(500);
+    energy.setLifespan(5000);
     energy.setBlendMode('ADD');
+    electricity = electron.createEmitter();
+    electricity.setPosition(390,550);
+    electricity.setSpeed(100);
+    electricity.setScale(.8);
+    electricity.setLifespan(900);
+    electricity.setBlendMode('ADD');
+    electricity.setFrequency(500);
     part = 8;
+  }
+  if (part ==8){
+    alert(part);
+    maxX = Math.max(locx);
+    maxY = Math.max(locy);
+    minX = Math.min(locx);
+    minY = Math.min(locy);
+    graphics.fillStyle(0x000000, 1);
+    graphics.fillRoundedRect(minX, minY, maxX, maxY, 32);
+    for (var i = 0; i< Panels.length; i++){
+    }
+    part = 9;
   }
 }
