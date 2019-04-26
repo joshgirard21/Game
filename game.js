@@ -45,6 +45,8 @@ var cloudy = 500;
 var cloud2x = 800;
 var cloud2y = 400;
 var graphics;
+var bet = false;
+var totalpower = 12*(800+300);
 
 function preload() {
     this.load.path = 'assets/'; // this.load goes right to /assets
@@ -136,10 +138,6 @@ function create(){
     GoButton.setTint(0xA9A9A9);
     }
   });
-  function between(x1,y1,x2,y2,x3,y3){
-
-  }
-
 }
 function update(){
   x = this.input.x;
@@ -223,7 +221,11 @@ function update(){
       thisline.clear();
       thisline.lineStyle(10,0xffff00);
       thisline.beginPath(); thisline.moveTo(sunx,suny); thisline.lineTo(locx[i],locy[i]); thisline.closePath(); thisline.strokePath();
-    }
+      thispanel = Panels[i];
+      if (!bet){
+        thispanel.clearTint();
+      }
+        }
     if (sunx < 100){
       sunset = sunset - .0014;
       suny++;
@@ -254,6 +256,16 @@ function update(){
     }else{
       thisRay.setAngle(phiRad*180/Math.PI+180);
     }
+      for (var k = 0; k< Panels.length; k++){
+        if (k!=i){
+        between(locx[i],locy[i],locx[k],locy[k],sunx,suny);
+      }
+    }
+      if (bet){
+        thispanel.setTintFill('0xFF0000');
+        bet = false;
+        totalpower--
+      }
     }
   }
   if (part == 5){
@@ -296,14 +308,23 @@ function update(){
     part = 8;
   }
   if (part ==8){
-    maxX = Math.max(locx);
-    maxY = Math.max(locy);
-    minX = Math.min(locx);
-    minY = Math.min(locy);
-    graphics.fillStyle(0x000000, 1);
-    graphics.fillRoundedRect(minX, minY, maxX, maxY, 32);
+    maxX = Math.max.apply(Math, locx);
+    maxY = Math.max.apply(Math, locy);
+    minX = Math.min.apply(Math, locx);
+    minY = Math.min.apply(Math, locy);
+    graphics.fillStyle(0x000000, .5);
+    graphics.fillRoundedRect(minX, minY, maxX-minX, maxY-minY, 32);
     for (var i = 0; i< Panels.length; i++){
     }
     part = 9;
+
+  }
+}
+function between(x1,y1,x2,y2,x3,y3){
+  c = Math.hypot(x3-x1,y3-y1);
+  a = Math.hypot(x2-x1,y2-y1);
+  b = Math.hypot(x3-x2,y3-y2);
+  if (Math.abs(a+b-c) < 30){
+    bet = true;
   }
 }
