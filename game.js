@@ -318,8 +318,11 @@ function update(){
     maxY = Math.max.apply(Math, locy);
     minX = Math.min.apply(Math, locx);
     minY = Math.min.apply(Math, locy);
+    X = maxX-minX;
+    Y = maxY-minY;
+    square = Math.max(X,Y);
     graphics.fillStyle(0x000000, .5);
-    graphics.fillRoundedRect(minX, minY, maxX-minX, maxY-minY, 32);
+    graphics.fillRoundedRect(minX, minY, square, square, 10);
     for (var i = 0; i< Panels.length; i++){
     }
     part = 9;
