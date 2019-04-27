@@ -47,6 +47,7 @@ var cloud2y = 400;
 var graphics;
 var bet = false;
 var totalpower = 12*(800+300);
+var instruct;
 
 function preload() {
     this.load.path = 'assets/'; // this.load goes right to /assets
@@ -101,6 +102,7 @@ function create(){
   });
   this.input.on('pointerdown',function(cursor){
     if (part == 2 && canplace && !onGoButton && Panels.length < 12){
+      instruct.setText('');
       locx.push(cursor.x);
       locy.push(cursor.y);
       mirrornum = mirrornum + 1;
@@ -110,7 +112,7 @@ function create(){
       }
     }
     if (part == 2.75 && canplace){
-      this.add.sprite(cursor.x,cursor.y,'Tower');
+      FinalTower = this.add.sprite(cursor.x,cursor.y,'Tower');
       towerx = cursor.x;
       towery = cursor.y;
       TowerObj = this.add.sprite(towerx,towery,'Tower').setTintFill(0xFF0000).setAlpha(0);
@@ -163,6 +165,7 @@ function update(){
     FlatMirror.setVisible(true);
     Sun.setPosition(sunx,suny);
     GoButton.setVisible(true);
+    instruct = this.add.text(100,200,'Click to add solar panels (twelve of them) and then once for a collector tower').setWordWrapWidth(600).setFontSize(45).setColor('black').setFontFamily('Superscript');
     part = 2;
   }
   if  (part == 2){
@@ -212,8 +215,11 @@ function update(){
   if (part == 2.8){
     canplace = false;
     Tower.setVisible(false);
+    instruct.setText('Press the go button to start the day!');
+    instruct.setPosition(200,400);
   }
   if (part == 3){
+    instruct.setText('');
     alpha += .0008;
     TowerObj.setAlpha(alpha);
     for (var i = 0; i <12; i++){
@@ -317,14 +323,26 @@ function update(){
     for (var i = 0; i< Panels.length; i++){
     }
     part = 9;
-
+  }
+  if (part == 9){
+    for (var i = 0; i< Panels.length; i++){
+      thispanel = Panels[i];
+      thisemitter = Emitter[i];
+      thisemitter.setScale(0);
+      thispanel.setAlpha(.3);
+    }
+    FinalTower.setAlpha(.3);
+    MW = parseFloat(100*totalpower/((maxX-minX)*(maxY-minY))).toFixed(2);
+    instruct.setPosition(10,10);
+    instruct.setText('You generated: '+MW+' Mega Watts per square Kilometer! Sweet!');
+    part = 10;
   }
 }
 function between(x1,y1,x2,y2,x3,y3){
   c = Math.hypot(x3-x1,y3-y1);
   a = Math.hypot(x2-x1,y2-y1);
   b = Math.hypot(x3-x2,y3-y2);
-  if (Math.abs(a+b-c) < 30){
+  if (Math.abs(a+b-c) < 20){
     bet = true;
   }
 }
