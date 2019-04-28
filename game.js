@@ -341,24 +341,26 @@ function update(){
     instruct.setPosition(10,10);
     instruct.setText('You generated: '+MW+' Mega Watts per square Kilometer! Sweet!');
     part = 10;
+    for (var i = 0; i< 12; i++){
+      locx[i] = parseFloat(locx[i]).toFixed(1);
+      locy[i] = parseFloat(locy[i]).toFixed(1);
+    }
     document.getElementById('score').value = MW.toString();
-    document.getElementById('locationx').value = 'hey';
-    document.getElementById('locationy').value = 'wassup';
+    document.getElementById('locationx').value = locx.toString();
+    document.getElementById('locationy').value = locy.toString();
     var $form = $('form#form'),
         url = 'https://script.google.com/macros/s/AKfycbzGMXpksr6WQGPXufR9WmmHkmJgIaupgkUJpcosQgjmabL_3-AT/exec'
     $('#submit-form').on('click', function(e) {
       e.preventDefault();
-      alert('yup');
       var jqxhr = $.ajax({
         url: url,
         method: "GET",
         dataType: "json",
         data: $form.serializeObject()
-      }).success(
-        // do something
-      );
+      });
     })
     //document.getElementById('form').submit();
+    $("#submit-form").click();
   }
 }
 function between(x1,y1,x2,y2,x3,y3){

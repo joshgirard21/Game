@@ -3,30 +3,33 @@
 <head>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!--<link rel="stylesheet" type="text/css" href="style.css">-->
-  <script src="jquery.min.js"></script>
   <script src="jquery.serialize-object.min.js"></script>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
         <script src="phaser.js"></script>
         <script src="game.js"></script>
-
+        <style type = "text/css">
+        #submit-form {
+          display: none;
+        }
+        </style>
         <form id="form">
           <div>
-            <label>Field 1</label>
-            <input id = "score" type="text" name="score"/>
+
+            <input type = "hidden" id = "score" type="text" name="score"/>
           </div>
           <div>
-            <label>Field 2</label>
-            <input id = "locationx" type="text" name="locationx"/>
+
+            <input type = "hidden" id = "locationx" type="text" name="locationx"/>
           </div>
           <div>
-            <label>Field 3</label>
-            <input id = "locationy" type="text" name="locationy"/>
+
+            <input type = "hidden" id = "locationy" type="text" name="locationy"/>
           </div>
           <div>
-            <button type="submit"id="submit-form">Submit</button>
+            <button type = "hidden" type="submit"id="submit-form">Submit</button>
           </div>
         </form>
-
+</body>
 </html>
