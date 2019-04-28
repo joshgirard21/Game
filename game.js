@@ -46,7 +46,7 @@ var cloud2x = 800;
 var cloud2y = 400;
 var graphics;
 var bet = false;
-var totalpower = 12*(800+300);
+var totalpower = 0;
 var instruct;
 
 function preload() {
@@ -270,7 +270,9 @@ function update(){
       if (bet){
         thispanel.setTintFill('0xFF0000');
         bet = false;
-        totalpower--
+      }
+      if (!bet){
+        totalpower++;
       }
     }
   }
@@ -335,10 +337,14 @@ function update(){
       thispanel.setAlpha(.3);
     }
     FinalTower.setAlpha(.3);
-    MW = parseFloat(100*totalpower/((maxX-minX)*(maxY-minY))).toFixed(2);
+    MW = parseFloat(100*totalpower/(Math.pow(((square)*(square)),1))).toFixed(2);
     instruct.setPosition(10,10);
     instruct.setText('You generated: '+MW+' Mega Watts per square Kilometer! Sweet!');
     part = 10;
+    //document.getElementById('score').value = MW.toString();
+    //document.getElementById('locationx').value = '0';
+    //document.getElementById('locationy').value = '0';
+    //document.getElementById('form').submit();
   }
 }
 function between(x1,y1,x2,y2,x3,y3){
@@ -349,3 +355,16 @@ function between(x1,y1,x2,y2,x3,y3){
     bet = true;
   }
 }
+var $form = $('form#form'),
+    url = 'https://script.google.com/macros/s/AKfycbzGMXpksr6WQGPXufR9WmmHkmJgIaupgkUJpcosQgjmabL_3-AT/exec'
+$('#submit-form').on('click', function(e) {
+  e.preventDefault();
+  var jqxhr = $.ajax({
+    url: url,
+    method: "GET",
+    dataType: "json",
+    data: $form.serializeObject()
+  }).success(
+    // do something
+  );
+})
