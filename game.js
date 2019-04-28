@@ -342,9 +342,8 @@ function update(){
     instruct.setText('You generated: '+MW+' Mega Watts per square Kilometer! Sweet!');
     part = 10;
     document.getElementById('score').value = MW.toString();
-    document.getElementById('locationx').value = '0';
-    document.getElementById('locationy').value = '0';
-    //document.getElementById('form').submit();
+    document.getElementById('locationx').value = 'hey';
+    document.getElementById('locationy').value = 'wassup';
     var $form = $('form#form'),
         url = 'https://script.google.com/macros/s/AKfycbzGMXpksr6WQGPXufR9WmmHkmJgIaupgkUJpcosQgjmabL_3-AT/exec'
     $('#submit-form').on('click', function(e) {
@@ -359,6 +358,7 @@ function update(){
         // do something
       );
     })
+    //document.getElementById('form').submit();
   }
 }
 function between(x1,y1,x2,y2,x3,y3){
